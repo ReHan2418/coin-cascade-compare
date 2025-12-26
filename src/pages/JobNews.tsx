@@ -1,61 +1,79 @@
 import { Helmet } from "react-helmet";
 import Navbar from "@/components/Navbar";
-import { Briefcase, MapPin, Clock, Building2 } from "lucide-react";
+import { Briefcase, MapPin, Building2, ExternalLink } from "lucide-react";
 
-const mockJobs = [
+const jobNews = [
   {
     id: 1,
-    title: "Tech Giants Announce Major Hiring Spree in Asia",
-    summary: "Leading technology companies including Google, Microsoft, and Amazon are expanding their workforce across Asian markets, with thousands of new positions opening in India, Singapore, and Japan.",
-    source: "TechCrunch",
-    time: "1 hour ago",
-    region: "Asia",
-    sector: "Technology",
+    title: "LinkedIn Jobs - Global Opportunities",
+    summary: "Browse millions of job listings worldwide across all industries. Find remote, hybrid, and on-site positions from top companies.",
+    source: "LinkedIn",
+    url: "https://www.linkedin.com/jobs/",
+    region: "Global",
+    sector: "All Industries",
   },
   {
     id: 2,
-    title: "European Banking Sector Sees Surge in Remote Positions",
-    summary: "Major European banks are increasingly offering remote work opportunities, with a 40% increase in work-from-anywhere positions compared to last year.",
-    source: "Financial News",
-    time: "3 hours ago",
-    region: "Europe",
-    sector: "Finance",
+    title: "Indeed - Job Search Engine",
+    summary: "Search millions of jobs from thousands of job boards, newspapers, and company career pages. One search covers all jobs.",
+    source: "Indeed",
+    url: "https://www.indeed.com/",
+    region: "Global",
+    sector: "All Industries",
   },
   {
     id: 3,
-    title: "Healthcare Industry Faces Global Talent Shortage",
-    summary: "Hospitals and healthcare providers worldwide are struggling to fill critical positions, leading to increased wages and international recruitment efforts.",
-    source: "Healthcare Weekly",
-    time: "5 hours ago",
+    title: "Glassdoor - Jobs & Company Reviews",
+    summary: "Find jobs and research companies. Read employee reviews, salaries, and interview experiences before you apply.",
+    source: "Glassdoor",
+    url: "https://www.glassdoor.com/Job/index.htm",
     region: "Global",
-    sector: "Healthcare",
+    sector: "All Industries",
   },
   {
     id: 4,
-    title: "Renewable Energy Sector Creates 500,000 New Jobs",
-    summary: "The transition to clean energy has generated half a million new positions globally, with solar and wind industries leading the growth.",
-    source: "Energy Today",
-    time: "7 hours ago",
-    region: "Global",
-    sector: "Energy",
+    title: "Remote OK - Remote Jobs",
+    summary: "Find remote jobs in programming, design, marketing, and more. Work from anywhere in the world.",
+    source: "Remote OK",
+    url: "https://remoteok.com/",
+    region: "Remote",
+    sector: "Technology",
   },
   {
     id: 5,
-    title: "US Manufacturing Jobs Return with AI Integration",
-    summary: "American manufacturing is experiencing a renaissance as companies combine automation with skilled human workers, creating new hybrid roles.",
-    source: "Industry Week",
-    time: "10 hours ago",
-    region: "North America",
-    sector: "Manufacturing",
+    title: "We Work Remotely - Remote Jobs",
+    summary: "The largest remote work community in the world. Find remote jobs in design, programming, marketing, and more.",
+    source: "We Work Remotely",
+    url: "https://weworkremotely.com/",
+    region: "Remote",
+    sector: "Technology",
   },
   {
     id: 6,
-    title: "Middle East Expands Finance Hub with New Opportunities",
-    summary: "Dubai and Abu Dhabi continue to attract global talent with competitive packages and growing opportunities in fintech and traditional banking.",
-    source: "Gulf Business",
-    time: "14 hours ago",
+    title: "AngelList - Startup Jobs",
+    summary: "Find jobs at startups and tech companies. Apply privately to thousands of tech companies and startups.",
+    source: "AngelList",
+    url: "https://angel.co/jobs",
+    region: "Global",
+    sector: "Startups",
+  },
+  {
+    id: 7,
+    title: "Naukri - Jobs in India",
+    summary: "India's largest job portal. Search for jobs across all industries and locations in India.",
+    source: "Naukri",
+    url: "https://www.naukri.com/",
+    region: "India",
+    sector: "All Industries",
+  },
+  {
+    id: 8,
+    title: "Gulf Talent - Middle East Jobs",
+    summary: "Leading job site for professionals in the Middle East. Find jobs in UAE, Saudi Arabia, Qatar, and more.",
+    source: "GulfTalent",
+    url: "https://www.gulftalent.com/",
     region: "Middle East",
-    sector: "Finance",
+    sector: "All Industries",
   },
 ];
 
@@ -63,10 +81,10 @@ const JobNews = () => {
   return (
     <>
       <Helmet>
-        <title>Job News - Worldwide Employment Updates</title>
+        <title>Job News - Worldwide Employment Opportunities</title>
         <meta
           name="description"
-          content="Explore the latest job market news, employment trends, and career opportunities from around the world."
+          content="Explore job opportunities and career resources from around the world. Find remote, hybrid, and on-site positions."
         />
       </Helmet>
 
@@ -82,23 +100,25 @@ const JobNews = () => {
           </div>
 
           <div className="space-y-4">
-            {mockJobs.map((job) => (
-              <article
+            {jobNews.map((job) => (
+              <a
                 key={job.id}
-                className="p-5 rounded-xl bg-card border border-border hover:shadow-md transition-shadow"
+                href={job.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block p-5 rounded-xl bg-card border border-border hover:shadow-md hover:border-primary/50 transition-all group"
               >
-                <h2 className="text-lg font-medium text-foreground mb-2">
-                  {job.title}
-                </h2>
+                <div className="flex items-center gap-2 mb-2">
+                  <h2 className="text-lg font-medium text-foreground group-hover:text-primary transition-colors">
+                    {job.title}
+                  </h2>
+                  <ExternalLink className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
                 <p className="text-sm text-muted-foreground mb-3">
                   {job.summary}
                 </p>
                 <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
-                  <span>{job.source}</span>
-                  <span className="flex items-center gap-1">
-                    <Clock className="w-3 h-3" />
-                    {job.time}
-                  </span>
+                  <span className="font-medium">{job.source}</span>
                   <span className="flex items-center gap-1">
                     <MapPin className="w-3 h-3" />
                     {job.region}
@@ -108,7 +128,7 @@ const JobNews = () => {
                     {job.sector}
                   </span>
                 </div>
-              </article>
+              </a>
             ))}
           </div>
         </main>
