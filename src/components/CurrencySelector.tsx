@@ -18,28 +18,28 @@ const CurrencySelector = ({ currencies, value, onChange }: CurrencySelectorProps
 
   return (
     <Select value={value} onValueChange={onChange}>
-      <SelectTrigger className="w-full bg-card border-border/50 h-14 text-lg">
+      <SelectTrigger className="w-full bg-card border-border h-12">
         <SelectValue>
           {selectedCurrency && (
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">{selectedCurrency.flag}</span>
-              <span className="font-semibold">{selectedCurrency.code}</span>
-              <span className="text-muted-foreground hidden sm:inline">- {selectedCurrency.name}</span>
+            <div className="flex items-center gap-2.5">
+              <span className="text-xl">{selectedCurrency.flag}</span>
+              <span className="font-medium">{selectedCurrency.code}</span>
+              <span className="text-muted-foreground text-sm hidden sm:inline">{selectedCurrency.name}</span>
             </div>
           )}
         </SelectValue>
       </SelectTrigger>
-      <SelectContent className="bg-card border-border max-h-80">
+      <SelectContent className="bg-card border-border max-h-72">
         {currencies.map((currency) => (
           <SelectItem 
             key={currency.code} 
             value={currency.code}
-            className="py-3 cursor-pointer"
+            className="py-2.5 cursor-pointer"
           >
-            <div className="flex items-center gap-3">
-              <span className="text-xl">{currency.flag}</span>
+            <div className="flex items-center gap-2.5">
+              <span className="text-lg">{currency.flag}</span>
               <span className="font-medium">{currency.code}</span>
-              <span className="text-muted-foreground">- {currency.name}</span>
+              <span className="text-muted-foreground text-sm">{currency.name}</span>
             </div>
           </SelectItem>
         ))}

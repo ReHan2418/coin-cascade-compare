@@ -6,7 +6,6 @@ import CurrencyCard from "@/components/CurrencyCard";
 import { currencies } from "@/lib/currencies";
 import { useExchangeRates } from "@/hooks/useExchangeRates";
 import { Helmet } from "react-helmet";
-import { Badge } from "@/components/ui/badge";
 import { Wifi, WifiOff, Loader2 } from "lucide-react";
 
 const Index = () => {
@@ -47,70 +46,60 @@ const Index = () => {
       <div className="min-h-screen bg-background">
         <Header onRefresh={refresh} lastUpdated={lastUpdated} />
 
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Status Badge */}
-          <div className="flex justify-center mb-6">
-            {isLoading ? (
-              <Badge variant="secondary" className="gap-2">
-                <Loader2 className="w-3 h-3 animate-spin" />
-                Fetching live rates...
-              </Badge>
-            ) : isLive ? (
-              <Badge variant="default" className="gap-2 bg-accent hover:bg-accent/90">
-                <Wifi className="w-3 h-3" />
-                Live rates from ExchangeRate-API
-              </Badge>
-            ) : (
-              <Badge variant="outline" className="gap-2">
-                <WifiOff className="w-3 h-3" />
-                Demo mode - using sample rates
-              </Badge>
-            )}
-          </div>
-
+        <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Converter Section */}
-          <section className="mb-10">
-            <div className="bg-card rounded-2xl p-6 sm:p-8 shadow-lg border border-border/50">
-              <h2 className="text-lg font-semibold text-foreground mb-6">
-                Convert from
-              </h2>
-              <div className="grid gap-6 md:grid-cols-2">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-muted-foreground">
-                    Base Currency
-                  </label>
-                  <CurrencySelector
-                    currencies={currencies}
-                    value={baseCurrency}
-                    onChange={setBaseCurrency}
-                  />
+          <section className="mb-8">
+            <div className="bg-card rounded-2xl p-5 sm:p-6 border border-border shadow-sm">
+              <div className="flex items-center justify-between mb-5">
+                <h2 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                  Convert from
+                </h2>
+                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="w-3 h-3 animate-spin" />
+                      <span>Loading...</span>
+                    </>
+                  ) : isLive ? (
+                    <>
+                      <Wifi className="w-3 h-3 text-accent" />
+                      <span>Live</span>
+                    </>
+                  ) : (
+                    <>
+                      <WifiOff className="w-3 h-3" />
+                      <span>Demo</span>
+                    </>
+                  )}
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-muted-foreground">
-                    Amount
-                  </label>
-                  <AmountInput
-                    value={amount}
-                    onChange={setAmount}
-                    currency={selectedCurrency}
-                  />
-                </div>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <CurrencySelector
+                  currencies={currencies}
+                  value={baseCurrency}
+                  onChange={setBaseCurrency}
+                />
+                <AmountInput
+                  value={amount}
+                  onChange={setAmount}
+                  currency={selectedCurrency}
+                />
               </div>
             </div>
           </section>
 
           {/* Results Section */}
           <section>
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-semibold text-foreground">
-                {numericAmount.toLocaleString()} {baseCurrency} equals
+            <div className="flex items-baseline justify-between mb-4">
+              <h2 className="text-base font-medium text-foreground">
+                <span className="tabular-nums">{numericAmount.toLocaleString()}</span> {baseCurrency}
               </h2>
-              <span className="text-sm text-muted-foreground">
+              <span className="text-xs text-muted-foreground">
                 {otherCurrencies.length} currencies
               </span>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {otherCurrencies.map((currency) => (
                 <CurrencyCard
                   key={currency.code}
@@ -125,16 +114,13 @@ const Index = () => {
               ))}
             </div>
           </section>
-
-          {/* Footer */}
-          <footer className="mt-16 py-8 border-t border-border/50 text-center">
-            <p className="text-sm text-muted-foreground">
-              {isLive 
-                ? "Exchange rates provided by ExchangeRate-API. Updated in real-time."
-                : "Demo rates shown. Connect to see live exchange rates."}
-            </p>
-          </footer>
         </main>
+
+        <footer className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <p className="text-xs text-center text-muted-foreground">
+            {isLive ? "Live rates from ExchangeRate-API" : "Demo rates"}
+          </p>
+        </footer>
       </div>
     </>
   );
