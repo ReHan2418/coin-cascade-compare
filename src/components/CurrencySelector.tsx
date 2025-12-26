@@ -6,6 +6,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Currency } from "@/lib/currencies";
+import { getFlagUrl } from "@/lib/countryFlags";
 
 interface CurrencySelectorProps {
   currencies: Currency[];
@@ -21,8 +22,12 @@ const CurrencySelector = ({ currencies, value, onChange }: CurrencySelectorProps
       <SelectTrigger className="w-full bg-card border-border h-12">
         <SelectValue>
           {selectedCurrency && (
-            <div className="flex items-center gap-2.5">
-              <span className="text-xl">{selectedCurrency.flag}</span>
+            <div className="flex items-center gap-3">
+              <img 
+                src={getFlagUrl(selectedCurrency.code)} 
+                alt={`${selectedCurrency.name} flag`}
+                className="w-6 h-4 object-cover rounded-sm shadow-sm"
+              />
               <span className="font-medium">{selectedCurrency.code}</span>
               <span className="text-muted-foreground text-sm hidden sm:inline">{selectedCurrency.name}</span>
             </div>
@@ -36,8 +41,12 @@ const CurrencySelector = ({ currencies, value, onChange }: CurrencySelectorProps
             value={currency.code}
             className="py-2.5 cursor-pointer"
           >
-            <div className="flex items-center gap-2.5">
-              <span className="text-lg">{currency.flag}</span>
+            <div className="flex items-center gap-3">
+              <img 
+                src={getFlagUrl(currency.code)} 
+                alt={`${currency.name} flag`}
+                className="w-6 h-4 object-cover rounded-sm shadow-sm"
+              />
               <span className="font-medium">{currency.code}</span>
               <span className="text-muted-foreground text-sm">{currency.name}</span>
             </div>
