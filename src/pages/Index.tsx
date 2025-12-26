@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import Navbar from "@/components/Navbar";
 import Header from "@/components/Header";
 import CurrencySelector from "@/components/CurrencySelector";
 import AmountInput from "@/components/AmountInput";
@@ -44,6 +45,7 @@ const Index = () => {
       </Helmet>
 
       <div className="min-h-screen bg-background">
+        <Navbar />
         <div>
           <Header onRefresh={refresh} lastUpdated={lastUpdated} />
 

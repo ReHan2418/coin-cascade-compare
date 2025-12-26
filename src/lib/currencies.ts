@@ -26,6 +26,7 @@ export const currencies: Currency[] = [
   { code: "BRL", name: "Brazilian Real", symbol: "R$", flag: "🇧🇷" },
   { code: "THB", name: "Thai Baht", symbol: "฿", flag: "🇹🇭" },
   { code: "SAR", name: "Saudi Riyal", symbol: "﷼", flag: "🇸🇦" },
+  { code: "KWD", name: "Kuwaiti Dinar", symbol: "د.ك", flag: "🇰🇼" },
 ];
 
 // Mock exchange rates (relative to USD)
@@ -50,6 +51,7 @@ export const mockRates: Record<string, number> = {
   BRL: 4.97,
   THB: 35.20,
   SAR: 3.75,
+  KWD: 0.31,
 };
 
 // Mock 24h changes (percentage)
@@ -74,6 +76,7 @@ export const mockChanges: Record<string, number> = {
   BRL: -0.52,
   THB: 0.15,
   SAR: 0.00,
+  KWD: 0.08,
 };
 
 export const getExchangeRate = (from: string, to: string): number => {
