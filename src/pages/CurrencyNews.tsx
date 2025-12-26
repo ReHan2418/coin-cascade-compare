@@ -1,52 +1,61 @@
 import { Helmet } from "react-helmet";
 import Navbar from "@/components/Navbar";
-import { Newspaper, TrendingUp, TrendingDown, Clock } from "lucide-react";
+import { Newspaper, TrendingUp, TrendingDown, Clock, ExternalLink } from "lucide-react";
 
-const mockNews = [
+const currencyNews = [
   {
     id: 1,
-    title: "US Dollar Strengthens Amid Federal Reserve Rate Decision",
-    summary: "The Federal Reserve's latest policy meeting has led to increased confidence in the US Dollar, with major currency pairs showing significant movement.",
-    source: "Financial Times",
-    time: "2 hours ago",
+    title: "US Dollar News & Analysis",
+    summary: "Latest updates on the US Dollar including Federal Reserve decisions, economic indicators, and forex market analysis.",
+    source: "Reuters",
+    url: "https://www.reuters.com/markets/currencies/",
     trend: "up",
-    currencies: ["USD", "EUR"],
+    currencies: ["USD"],
   },
   {
     id: 2,
-    title: "Euro Faces Pressure as ECB Signals Cautious Outlook",
-    summary: "European Central Bank officials have indicated a more measured approach to monetary policy, impacting Euro valuations across global markets.",
-    source: "Reuters",
-    time: "4 hours ago",
+    title: "Euro Currency Updates",
+    summary: "European Central Bank policy updates, Euro exchange rates, and Eurozone economic news.",
+    source: "Financial Times",
+    url: "https://www.ft.com/currencies",
     trend: "down",
-    currencies: ["EUR", "GBP"],
+    currencies: ["EUR"],
   },
   {
     id: 3,
-    title: "Japanese Yen Hits Multi-Year Low Against Dollar",
-    summary: "The Yen continues its decline as Bank of Japan maintains ultra-loose monetary policy while other central banks tighten rates.",
+    title: "Forex Market Live News",
+    summary: "Real-time currency market news, forex trading insights, and global exchange rate movements.",
     source: "Bloomberg",
-    time: "6 hours ago",
-    trend: "down",
-    currencies: ["JPY", "USD"],
+    url: "https://www.bloomberg.com/markets/currencies",
+    trend: "up",
+    currencies: ["USD", "EUR", "GBP"],
   },
   {
     id: 4,
-    title: "British Pound Rallies on Strong Economic Data",
-    summary: "Better-than-expected UK employment figures have boosted Sterling, with markets now pricing in potential rate adjustments.",
-    source: "The Guardian",
-    time: "8 hours ago",
+    title: "British Pound Sterling News",
+    summary: "GBP exchange rate updates, Bank of England decisions, and UK economic indicators.",
+    source: "BBC News",
+    url: "https://www.bbc.com/news/topics/c9qdqqkgz27t",
     trend: "up",
     currencies: ["GBP"],
   },
   {
     id: 5,
-    title: "Emerging Market Currencies Show Resilience",
-    summary: "Several emerging market currencies including Indian Rupee and Brazilian Real have shown stability despite global volatility.",
+    title: "Asian Currency Markets",
+    summary: "Japanese Yen, Chinese Yuan, and other Asian currency news with regional economic analysis.",
     source: "CNBC",
-    time: "12 hours ago",
+    url: "https://www.cnbc.com/currencies/",
+    trend: "down",
+    currencies: ["JPY", "CNY", "INR"],
+  },
+  {
+    id: 6,
+    title: "Emerging Market Currencies",
+    summary: "Currency news from emerging markets including India, Brazil, South Africa, and Middle East.",
+    source: "MarketWatch",
+    url: "https://www.marketwatch.com/investing/currencies",
     trend: "up",
-    currencies: ["INR", "BRL"],
+    currencies: ["INR", "BRL", "AED"],
   },
 ];
 
@@ -73,25 +82,27 @@ const CurrencyNews = () => {
           </div>
 
           <div className="space-y-4">
-            {mockNews.map((news) => (
-              <article
+            {currencyNews.map((news) => (
+              <a
                 key={news.id}
-                className="p-5 rounded-xl bg-card border border-border hover:shadow-md transition-shadow"
+                href={news.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block p-5 rounded-xl bg-card border border-border hover:shadow-md hover:border-primary/50 transition-all group"
               >
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1">
-                    <h2 className="text-lg font-medium text-foreground mb-2">
-                      {news.title}
-                    </h2>
+                    <div className="flex items-center gap-2 mb-2">
+                      <h2 className="text-lg font-medium text-foreground group-hover:text-primary transition-colors">
+                        {news.title}
+                      </h2>
+                      <ExternalLink className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </div>
                     <p className="text-sm text-muted-foreground mb-3">
                       {news.summary}
                     </p>
                     <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                      <span>{news.source}</span>
-                      <span className="flex items-center gap-1">
-                        <Clock className="w-3 h-3" />
-                        {news.time}
-                      </span>
+                      <span className="font-medium">{news.source}</span>
                       <div className="flex items-center gap-1">
                         {news.currencies.map((c) => (
                           <span
@@ -118,7 +129,7 @@ const CurrencyNews = () => {
                     )}
                   </div>
                 </div>
-              </article>
+              </a>
             ))}
           </div>
         </main>
