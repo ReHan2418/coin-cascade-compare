@@ -29,14 +29,6 @@ const CurrencyCard = ({ code, name, symbol, rate, amount, change = 0 }: Currency
         />
       </div>
       
-      {/* Flag watermark */}
-      <div className="absolute -right-4 -bottom-4 opacity-10 pointer-events-none">
-        <img 
-          src={getFlagUrl(code)} 
-          alt=""
-          className="w-24 h-16 object-cover rounded"
-        />
-      </div>
 
       <div className="relative z-10">
         <div className="flex items-center justify-between mb-3">
