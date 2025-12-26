@@ -3,13 +3,17 @@ import Header from "@/components/Header";
 import CurrencySelector from "@/components/CurrencySelector";
 import AmountInput from "@/components/AmountInput";
 import CurrencyCard from "@/components/CurrencyCard";
-import { currencies, getExchangeRate, mockChanges } from "@/lib/currencies";
+import { currencies } from "@/lib/currencies";
+import { useExchangeRates } from "@/hooks/useExchangeRates";
 import { Helmet } from "react-helmet";
+import { Badge } from "@/components/ui/badge";
+import { Wifi, WifiOff, Loader2 } from "lucide-react";
 
 const Index = () => {
   const [baseCurrency, setBaseCurrency] = useState("USD");
   const [amount, setAmount] = useState("1000");
-  const [lastUpdated, setLastUpdated] = useState(new Date());
+
+  const { rates, changes, lastUpdated, isLoading, isLive, refresh } = useExchangeRates(baseCurrency);
 
   const selectedCurrency = useMemo(
     () => currencies.find((c) => c.code === baseCurrency) || currencies[0],
@@ -23,8 +27,11 @@ const Index = () => {
 
   const numericAmount = parseFloat(amount) || 0;
 
-  const handleRefresh = () => {
-    setLastUpdated(new Date());
+  const getRate = (targetCurrency: string): number => {
+    if (rates[targetCurrency]) {
+      return rates[targetCurrency];
+    }
+    return 1;
   };
 
   return (
@@ -38,9 +45,29 @@ const Index = () => {
       </Helmet>
 
       <div className="min-h-screen bg-background">
-        <Header onRefresh={handleRefresh} lastUpdated={lastUpdated} />
+        <Header onRefresh={refresh} lastUpdated={lastUpdated} />
 
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Status Badge */}
+          <div className="flex justify-center mb-6">
+            {isLoading ? (
+              <Badge variant="secondary" className="gap-2">
+                <Loader2 className="w-3 h-3 animate-spin" />
+                Fetching live rates...
+              </Badge>
+            ) : isLive ? (
+              <Badge variant="default" className="gap-2 bg-accent hover:bg-accent/90">
+                <Wifi className="w-3 h-3" />
+                Live rates from ExchangeRate-API
+              </Badge>
+            ) : (
+              <Badge variant="outline" className="gap-2">
+                <WifiOff className="w-3 h-3" />
+                Demo mode - using sample rates
+              </Badge>
+            )}
+          </div>
+
           {/* Converter Section */}
           <section className="mb-10">
             <div className="bg-card rounded-2xl p-6 sm:p-8 shadow-lg border border-border/50">
@@ -91,9 +118,9 @@ const Index = () => {
                   name={currency.name}
                   symbol={currency.symbol}
                   flag={currency.flag}
-                  rate={getExchangeRate(baseCurrency, currency.code)}
+                  rate={getRate(currency.code)}
                   amount={numericAmount}
-                  change={mockChanges[currency.code]}
+                  change={changes[currency.code] || 0}
                 />
               ))}
             </div>
@@ -102,10 +129,9 @@ const Index = () => {
           {/* Footer */}
           <footer className="mt-16 py-8 border-t border-border/50 text-center">
             <p className="text-sm text-muted-foreground">
-              Exchange rates are for demonstration purposes. 
-              <br className="sm:hidden" />
-              <span className="hidden sm:inline"> • </span>
-              Rates update in real-time when connected to a live API.
+              {isLive 
+                ? "Exchange rates provided by ExchangeRate-API. Updated in real-time."
+                : "Demo rates shown. Connect to see live exchange rates."}
             </p>
           </footer>
         </main>
