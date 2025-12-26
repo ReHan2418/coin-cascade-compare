@@ -20,6 +20,7 @@ export const currencyToCountry: Record<string, string> = {
   BRL: "br",
   THB: "th",
   SAR: "sa",
+  KWD: "kw",
 };
 
 export const getFlagUrl = (currencyCode: string): string => {
